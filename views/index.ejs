@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <style>
+        label {
+          display: inline-block;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@300&display=swap">
+    <title>My Financial Future</title>
+    <script>
+        $( function() {
+          $( document ).tooltip();
+        } );
+    </script>
+    <script>
+        function calculateTotal()
+        {
+        
+        let years = ($("#years").val())
+        years = parseInt(years)
+        years = years || 0
+
+        let retirement_total = ($("#retire-total").val())
+        retirement_total = retirement_total || 0
+        retirement_total = parseFloat(retirement_total)
+        let retirement_rate = ($("#retire-rate").val())
+        retirement_rate = retirement_rate || 0
+        retirement_rate = parseFloat(retirement_rate) / 100
+        let placeholder = retirement_total
+
+        //Testing for eventual monthly payment calculator
+        for (let i = 0; i < (years); i++) {
+            //total + 12 * monthlypayment
+            placeholder = placeholder*(1 + (retirement_rate))
+            
+        }
+        let retirement_total_future = retirement_total*(1 + (retirement_rate / 1))**(years)
+        
+        let home_equity = ($("#home-equity").val())
+        home_equity = home_equity || 0
+        home_equity = parseFloat(home_equity)
+        let home_rate = ($("#home-change").val())
+        home_rate = home_rate || 0
+        home_rate = parseFloat(home_rate) / 100
+        let home_total_future = home_equity*(1 + (home_rate / 1))**(years)
+
+        let savings = ($("#savings-total").val())
+        savings = savings || 0
+        savings = parseFloat(savings)
+        let savings_rate = ($("#savings-rate").val())
+        savings_rate = savings_rate || 0
+        savings_rate = parseFloat(savings_rate) / 100
+        let savings_total_future = savings*(1 + (savings_rate / 1))**(years)  
+        
+        let personal = ($("#personal-investments-amount").val())
+        personal = personal || 0
+        personal = parseFloat(personal)
+        let personal_rate = ($("#personal-rate").val())
+        personal_rate = personal_rate || 0
+        personal_rate = parseFloat(personal_rate) / 100
+        let personal_total_future = personal*(1 + (personal_rate / 1))**(years)  
+
+        let misc_asset = ($("#misc-value").val())
+        misc_asset = misc_asset || 0
+        misc_asset = parseFloat(misc_asset)
+        let misc_rate = ($("#misc-rate").val())
+        misc_rate = misc_rate || 0
+        misc_rate = parseFloat(misc_rate) / 100
+        let misc_total_future = misc_asset*(1 + (misc_rate / 1))**(years)
+        
+        let cc = ($("#cc-amount").val())
+        cc = cc || 0
+        cc = parseFloat(cc)
+        let cc_rate = ($("#cc-rate").val())
+        cc_rate = cc_rate || 0
+        cc_rate = parseFloat(cc_rate) / 100
+        let cc_total_future = cc*(1 + (cc_rate / 1))**(years)  
+        
+        let auto = ($("#auto-amount").val())
+        auto = auto || 0
+        auto = parseFloat(auto)
+        let auto_rate = ($("#auto-rate").val())
+        auto_rate = auto_rate || 0
+        auto_rate = parseFloat(auto_rate) / 100
+        let auto_total_future = auto*(1 + (auto_rate / 1))**(years)
+        
+        let home_debt = ($("#home-amount").val())
+        home_debt = home_debt || 0
+        home_debt = parseFloat(home_debt)
+        let home_loan_rate = ($("#home-rate").val())
+        home_loan_rate = home_loan_rate || 0
+        home_loan_rate = parseFloat(home_loan_rate) / 100
+        let home_loan_total_future = home_debt*(1 + (home_loan_rate / 1))**(years)
+
+        let misc_debt = ($("#misc-debt-amount").val())
+        misc_debt = misc_debt || 0
+        misc_debt = parseFloat(misc_debt)
+        let misc_debt_rate = ($("#misc-debt-rate").val())
+        misc_debt_rate = misc_debt_rate || 0
+        misc_debt_rate = parseFloat(misc_debt_rate) / 100
+        let misc_debt_total_future = misc_debt*(1 + (misc_debt_rate / 1))**(years)
+        
+        let total_today = 0.00
+        let total_future = 0.00
+
+        total_today = retirement_total + home_equity + personal + savings + misc_asset - auto - cc - home_debt - misc_debt;
+        total_future = retirement_total_future + home_total_future + personal_total_future + savings_total_future + misc_total_future - cc_total_future - home_loan_total_future - auto_total_future - misc_debt_total_future
+        total_today = total_today.toFixed(2)
+        total_future = total_future.toFixed(2)
+        $("#total_today_value").text(total_today);
+        $("#total_future_value").text(total_future);
+        
+        }
+
+        $(function()
+        {
+            $(".amount").on("change keyup",calculateTotal)
+            $(".rate").on("change keyup",calculateTotal)
+            $(".years").on("change keyup",calculateTotal)
+        })
+ 
+    </script>
+</head>
+<body style="background-color:#333;">
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-container flex">
+                <h1 class="logo">My Financial Future</h1>
+                <nav>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="about">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+    </div> <!-- End of Navbar -->
+    
+    <div id="instructions">
+        In the table below, fill out any assets or debts you may have or may expect to have, as well as the interest rate or rate of return on the asset or debt. If any don't apply to you, you may leave them blank. 
+        Enter the number of years in the future you'd like to calculate your net worth based on the information provided. 
+    </div>
+    <div id="instructions">
+        The rate of return or interest rate is the expected average annual gain for a given asset, or the expected annual interest rate charged for a given debt.
+        (The rate of return for Home Equity is the expected change in value of your home, as a percentage, if relevant) 
+    </div>
+    <div id="instructions">
+        At the bottom, check out your net worth today and the number of years in the future you select based on your current financial situation. Click the Clear button to start fresh, anytime!
+    </div>
+    <form action="/" style="margin-top:20px;">
+        <input type="submit" id="clear-button" value="Clear" />
+    </form>
+    <div id="calculate-module"> 
+        <div class="center">
+            <div>
+                <h2>Assets</h2>
+                <div class="heading">Retirement Account(s) Total</div> 
+                <div class="row">
+                    
+                    <label for="retire-total">Amount: </label>
+                    <input class="amount" id="retire-total" type="number" default="0.0" step="0.01">
+                    <label for="retire-rate">Rate of Return: </label>
+                    <input class="rate" id="retire-rate" type="number" default="0.0" step="0.1">
+                    %
+                    <form action="/more-info" class="inline" class="form-button"><input type="submit" value="More Info" /></form>
+                </div>
+                <div class="heading">Home Equity</div>
+                <div class="row">
+                                   
+                    <label for="home-equity">Amount: </label>
+                    <input class="amount" id="home-equity" type="number" default="0.0" step="0.01">
+                    <label for="home-change">Rate of Return: </label>
+                    <input class="rate" id="home-change" title="How much you expect the value of your home to increase or decrease" type="number" default="0.0" step="0.1">
+                    %
+                    <form action="/more-info" class="inline" class="form-button"><input type="submit" value="More Info" /></form>
+                </div>
+
+                <div class="heading">Checking/Savings</div>
+                <div class="row">
+                    <label for="savings-total">Amount: </label>
+                    <input class="amount" id="savings-total" type="number" default="0.0" step="0.01">
+                    <label for="savings-rate">Rate of Return: </label>
+                    <input class="rate" id="savings-rate" type="number" default="0.0" step="0.1">
+                    %
+                    <form action="/more-info" class="inline" class="form-button"><input type="submit" value="More Info" /></form>
+                </div>
+                <div class="heading">Personal Investments</div>
+                <div class="row">
+                    <label for="personal-investments-amount">Amount: </label>
+                    <input class="amount" id="personal-investments-amount" type="number" default="0.0" step="0.01">
+                    <label for="personal-rate">Rate of Return: </label>
+                    <input class="rate" id="personal-rate" type="number" default="0.0" step="0.1">
+                    %
+                    <form action="/more-info" class="inline" class="form-button"><input type="submit" value="More Info" /></form>
+                </div>
+                <div class="heading">Misc</div>
+                <div class="row">
+                    <label for="misc-value">Amount: </label>
+                    <input class="amount" id="misc-value" type="number" default="0.0" step="0.01">
+                    <label for="misc-rate">Rate of Return: </label>
+                    <input class="rate" id="misc-rate" type="number" default="0.0" step="0.1">
+                    %
+                    <form action="/more-info" class="inline" class="form-button"><input type="submit" value="More Info" /></form>
+                </div>
+            </div>
+            <div class="bump">
+                <h2 class="liabilities">Liabilities</h2>
+                <div class="heading">Credit Card Debt</div>
+                <div class="row">
+                    <label for="cc-amount">Amount: </label>
+                    <input class="amount" id="cc-amount" type="number" default="0.0" step="0.01">
+                    <label for="cc-rate">Interest Rate: </label>
+                    <input class="rate" id="cc-rate" type="number" default="0.0" step="0.1">
+                    %
+                    <form action="/more-info" class="inline" class="form-button"><input type="submit" value="More Info" /></form>
+                </div>
+                <div class="heading">Auto Loan Balance</div>
+                <div class="row">
+                    <label for="auto-amount">Amount: </label>
+                    <input class="amount" id="auto-amount" type="number" default="0.0" step="0.01">
+                    <label for="auto-rate">Interest Rate: </label>
+                    <input class="rate" id="auto-rate" type="number" default="0.0" step="0.1">
+                    %
+                    <form action="/more-info" class="inline" class="form-button"><input type="submit" value="More Info" /></form>
+                </div>
+                <div class="heading">Home Loan Balance</div>
+                <div class="row">
+                    <label for="home-amount">Amount: </label>
+                    <input class="amount" id="home-amount" type="number" default="0.0" step="0.01">
+                    <label for="home-rate">Interest Rate: </label>
+                    <input class="rate" id="home-rate" type="number" default="0.0" step="0.1">
+                    %
+                    <form action="/more-info" class="inline" class="form-button"><input type="submit" value="More Info" /></form>
+                </div>
+                <div class="heading">Misc Debt</div>
+                <div class="row">
+                    <label for="misc-debt-amount">Amount: </label>
+                    <input class="amount" id="misc-debt-amount" type="number" default="0.0" step="0.01">
+                    <label for="misc-debt-rate">Interest Rate: </label>
+                    <input class="rate" id="misc-debt-rate" type="number" default="0.0" step="0.1">
+                    %
+                    <form action="/more-info" class="inline" class="form-button"><input type="submit" value="More Info" /></form>
+                </div>
+            </div>
+
+            <h2>
+                <label for="years">Years: </label>
+                <input class="years" id="years" type="number" default="0" min="0" max="100">
+            </h2>
+            
+            <h2>
+                Net Worth Today: 
+                <span id="total_today_value">0</span>
+            <h2>
+        
+        
+            <h2>
+                Net Worth Future: 
+                <span id="total_future_value">0</span>
+            </h2>
+            
+
+            
+            
+        </div>
+    </div>
+    <form action="/">
+        <input type="submit" id="clear-button" value="Clear" />
+    </form>
+</body>
+</html>
